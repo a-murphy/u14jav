@@ -6,27 +6,31 @@ sudo mkdir -p /var/lib/apt/lists/partial
 sudo apt-get clean
 sudo apt-get update
 
-echo "================ Installing gradle ================="
-sudo wget https://services.gradle.org/distributions/gradle-2.3-all.zip
-unzip -qq gradle-2.3-all.zip -d /usr/local && rm -f gradle-2.3-all.zip
-ln -fs /usr/local/gradle-2.3/bin/gradle /usr/bin
-echo 'export PATH=$PATH:/usr/local/gradle-2.3/bin' >> $HOME/.bashrc
+GRADLE_VERSION=3.0
+MAVEN_VERSION=3.3.9
+ANT_VERSION=1.9.7
 
-echo "================ Installing apache-maven-3.2.5 ================="
-sudo wget http://mirrors.ibiblio.org/apache/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz
-sudo tar xzf apache-maven-3.2.5-bin.tar.gz -C /usr/local && rm -f apache-maven-3.2.5-bin.tar.gz
-ln -fs /usr/local/apache-maven-3.2.5/bin/mvn /usr/bin
-echo 'export PATH=$PATH:/usr/local/apache-maven-3.2.5/bin' >> $HOME/.bashrc
+echo "================ Installing gradle-${GRADLE_VERSION} ================="
+sudo wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip
+unzip -qq gradle-${GRADLE_VERSION}-all.zip -d /usr/local && rm -f gradle-${GRADLE_VERSION}-all.zip
+ln -fs /usr/local/gradle-${GRADLE_VERSION}/bin/gradle /usr/bin
+echo "export PATH=$PATH:/usr/local/gradle-${GRADLE_VERSION}/bin" >> $HOME/.bashrc
 
-echo "================ Installing apache-ant-1.9.6 ================="
-wget http://mirror.cogentco.com/pub/apache//ant/binaries/apache-ant-1.9.6-bin.tar.gz
-tar xzf apache-ant-1.9.6-bin.tar.gz -C /usr/local && rm -f apache-ant-1.9.6-bin.tar.gz
-ln -fs /usr/local/apache-ant-1.9.6/bin/ant /usr/bin
-echo 'export ANT_HOME=/usr/local/apache-ant-1.9.6' >> $HOME/.bashrc
-echo 'export PATH=$PATH:/usr/local/apache-ant-1.9.6/bin' >> $HOME/.bashrc
+MAVEN_MAJOR_VERSION=$(echo ${MAVEN_VERSION} | cut -f1 -d.)
+echo "================ Installing apache-maven-${MAVEN_VERSION} ================="
+sudo wget http://mirrors.ibiblio.org/apache/maven/maven-${MAVEN_MAJOR_VERSION}/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+sudo tar xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /usr/local && rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz
+ln -fs /usr/local/apache-maven-${MAVEN_VERSION}/bin/mvn /usr/bin
+echo "export PATH=$PATH:/usr/local/apache-maven-${MAVEN_VERSION}/bin" >> $HOME/.bashrc
+
+echo "================ Installing apache-ant-${ANT_VERSION} ================="
+wget http://mirror.cogentco.com/pub/apache//ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz
+tar xzf apache-ant-${ANT_VERSION}-bin.tar.gz -C /usr/local && rm -f apache-ant-${ANT_VERSION}-bin.tar.gz
+ln -fs /usr/local/apache-ant-${ANT_VERSION}/bin/ant /usr/bin
+echo "export ANT_HOME=/usr/local/apache-ant-${ANT_VERSION}" >> $HOME/.bashrc
+echo "export PATH=$PATH:/usr/local/apache-ant-${ANT_VERSION}/bin" >> $HOME/.bashrc
 
 for file in /u14jav/version/*;
 do
   $file
 done
-
