@@ -79,7 +79,6 @@ main() {
   dockerLogin
   checkIfTagBuild
   createImage
-  dockerPush
   createOutState
 }
 
